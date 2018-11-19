@@ -44,6 +44,7 @@ class SelectSubstitute:
         cat_selected = self.select_category()
         prod_selected = self.select_product(cat_selected)
         self.show_product(prod_selected)
+        substitute = self.show_substitute(cat_selected)
 
     def select_category(self):
         """show catgories and return index and name of the chosen one"""
@@ -85,3 +86,24 @@ class SelectSubstitute:
             print("url : {}".format(row[3]))
             print("nutriscore : {}".format(row[4]))
             print("")
+
+    def show_substitute(self, cat_selected):
+        """show attributes product from category selected and nutriscore by Mysql SELECT OUTER JOIN command)"""
+        sql_select_query = "SELECT category_product.cp_product, product.* FROM category_product " \
+                           "LEFT JOIN product ON category_product.cp_product = product.product_name " \
+                           "WHERE category_product.cp_category = %(category)s ORDER BY product.nutriscore"
+        self.cursor.execute(sql_select_query, cat_selected)
+        rows = self.cursor.fetchall()
+        i = -1
+        for row in rows:
+            i += 1
+            if i < 1:
+                substitute = row[0]
+                print("#################### substitut #####################")
+                print("nom : {}".format(row[1]))
+                print("description : {}".format(row[2]))
+                print("marque : {}".format(row[3]))
+                print("url : {}".format(row[4]))
+                print("nutriscore : {}".format(row[5]))
+                print("")
+                return substitute
