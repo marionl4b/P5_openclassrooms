@@ -41,9 +41,9 @@ class SelectSubstitute:
 
     def selection(self):
         """run methodes from class for substitute selection"""
-        self.select_category()
         cat_selected = self.select_category()
-        self.select_product(cat_selected)
+        prod_selected = self.select_product(cat_selected)
+        self.show_product(prod_selected)
 
     def select_category(self):
         """show catgories and return index and name of the chosen one"""
@@ -71,3 +71,17 @@ class SelectSubstitute:
         prod_index = check_user_answer("Veuillez séléctionner un produit (chiffre)", temp_crawl)
         prod_selected = index_constructor(prod_index, temp_crawl)
         return prod_selected
+
+    def show_product(self, prod_selected):
+        """show attributes product and store_product from product selected by Mysql SELECT OUTER JOIN command)"""
+        sql_select_query = "SELECT * FROM product WHERE product_name = %(product)s"
+        self.cursor.execute(sql_select_query, prod_selected)
+        rows = self.cursor.fetchall()
+        for row in rows:
+            print("#################### produit sélectionné #####################")
+            print("nom : {}".format(row[0]))
+            print("description : {}".format(row[1]))
+            print("marque : {}".format(row[2]))
+            print("url : {}".format(row[3]))
+            print("nutriscore : {}".format(row[4]))
+            print("")
