@@ -1,6 +1,6 @@
 import os.path
 
-TABLES = []
+TABLES = dict()
 
 TABLES['product'] = (
     "CREATE TABLE `product` ("
