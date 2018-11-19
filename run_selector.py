@@ -42,6 +42,8 @@ class SelectSubstitute:
     def selection(self):
         """run methodes from class for substitute selection"""
         self.select_category()
+        cat_selected = self.select_category()
+        self.select_product(cat_selected)
 
     def select_category(self):
         """show catgories and return index and name of the chosen one"""
@@ -54,3 +56,18 @@ class SelectSubstitute:
         cat_index = check_user_answer("Veuillez séléctionner une catégorie (chiffre)", temp_crawl)
         cat_selected = index_constructor(cat_index, temp_crawl)
         return cat_selected
+
+    def select_product(self, cat_selected):
+        """show products from selected category and return index and name of the chosen one"""
+        temp_crawl = []
+        sql_select_query = "SELECT cp_product FROM category_product WHERE cp_category = %(category)s"
+        self.cursor.execute(sql_select_query, cat_selected)
+        rows = self.cursor.fetchall()
+        for row in enumerate(rows):
+            index = row[0]
+            product = row[1][0]
+            print(index, product)
+            temp_crawl.append({"index": index, "product": product})
+        prod_index = check_user_answer("Veuillez séléctionner un produit (chiffre)", temp_crawl)
+        prod_selected = index_constructor(prod_index, temp_crawl)
+        return prod_selected
