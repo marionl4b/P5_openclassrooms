@@ -14,6 +14,7 @@ class DataInit:
         self.cursor = self.cnx.cursor(buffered=True)
 
         self.use_database()
+        self.create_tables()
 
     def database_connexion(self):
         """test config and connect to mysql server"""
@@ -53,3 +54,17 @@ class DataInit:
             exit(1)
         else:
             self.cnx.database = config.DB_NAME
+
+    def create_tables(self):
+        """create tables defined in settings"""
+        for table_name in settings.TABLES:
+            table_description = settings.TABLES[table_name]
+            try:
+                print("Creating table : {} ".format(table_name), end='')
+                self.cursor.execute(table_description)
+            except mysql.connector.Error as err:
+                if err.errno == errorcode.ER_TABLE_EXISTS_ERROR:
+                    print("=> already exists.")
+                else:
+                    print(err.msg)
+                    exit(1)
