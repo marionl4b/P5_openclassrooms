@@ -24,6 +24,7 @@ class DataInit:
                 print("Something is wrong with your user name or password")
             elif err.errno == errorcode.ER_BAD_DB_ERROR:
                 print("Database does not exist")
+                self.create_database()
             else:
                 print(err)
         else:
@@ -37,6 +38,18 @@ class DataInit:
         except mysql.connector.Error as err:
             if err.errno == errorcode.ER_BAD_DB_ERROR:
                 print("Database does not exist")
+                self.create_database()
             else:
                 print(err)
                 exit(1)
+
+    def create_database(self):
+        """create PurBeurre database"""
+        try:
+            self.cursor.execute("CREATE DATABASE {} DEFAULT CHARACTER SET 'utf8mb4'".format(config.DB_NAME))
+            print("Database {} created successfully.".format(config.DB_NAME))
+        except mysql.connector.Error as err:
+            print("Failed creating database: {}".format(err))
+            exit(1)
+        else:
+            self.cnx.database = config.DB_NAME
