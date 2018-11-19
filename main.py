@@ -3,11 +3,11 @@
 # coding: utf-8
 
 
-import OFF_request
+import db_manager
 
 
 def main():
-    OFF_request.RequestParser()
+    db_manager.DataInit()
 
 
 if __name__ == '__main__':
