@@ -151,6 +151,7 @@ class SelectSubstitute:
     def show_historic(self):
         """show historic of substitute selections"""
         print("#################### historique #####################")
+        temp_crawl = []
         sql_select_query = "SELECT * FROM historic"
         self.cursor.execute(sql_select_query)
         rows = self.cursor.fetchall()
@@ -161,3 +162,21 @@ class SelectSubstitute:
             print("produit : {}".format(row[2]))
             print("substitut : {}".format(row[3]))
             print("")
+            temp_crawl.append({"index": row[0], "product": row[2], "substitute": row[3]})
+        self.show_historic_details(temp_crawl)
+
+    def show_historic_details(self, temp_crawl):
+        product = dict()
+        substitute = dict()
+        hist_select = check_user_answer("Veuillez séléctionner la recherche dont "
+                                        "vous voulez afficher les détails (chiffre)", temp_crawl)
+        hist_number = {"index": hist_select}
+        sql_select_query = "SELECT hist_product, hist_substitute FROM historic " \
+                           "WHERE historic.hist_id = %(index)s"
+        self.cursor.execute(sql_select_query, hist_number)
+        rows = self.cursor.fetchall()
+        for row in rows:
+            product = {"product": row[0]}
+            substitute = {"product": row[1]}
+        self.show_product(product)
+        self.show_product(substitute)
