@@ -1,8 +1,10 @@
 import OFF_request
 import db_manager
+import datetime
 
 request = OFF_request.RequestParser()
 db_manager = db_manager.DataInit()
+
 
 
 def check_user_answer(prompt, temp_crawl):
@@ -43,6 +45,7 @@ class SelectSubstitute:
         prod_selected = self.select_product(cat_selected)
         self.show_product(prod_selected)
         substitute = self.show_substitute(cat_selected)
+        self.add_to_historic(prod_selected, substitute)
 
     def select_category(self):
         """show catgories and return index and name of the chosen one"""
@@ -123,3 +126,38 @@ class SelectSubstitute:
                 stores.append("nc")
         stores = ", ".join(stores)
         return stores
+
+    def add_to_historic(self, prod_selected, substitute):
+        while 1:
+            user_answer = input("Ajouter à l'historique ? (O/N)")
+            if user_answer == "O":
+                self.insert_historic(prod_selected, substitute)
+                break
+            elif user_answer == "N":
+                break
+            else:
+                print("Veuillez entree (O/N)")
+
+    def insert_historic(self, prod_selected, substitute):
+        """prepare and insert data attributes for historic"""
+        now = datetime.datetime.now()
+        hist_data = (now.strftime("%Y-%m-%d %H:%M:%S"), prod_selected.get("product"), substitute)
+        sql_update_query = "INSERT IGNORE INTO historic (hist_date, hist_product, hist_substitute) " \
+                           "VALUES (%s, %s, %s)"
+        self.cursor.execute(sql_update_query, hist_data)
+        self.cnx.commit()
+        print("Dernière recherche ajoutée à l'historique")
+
+    def show_historic(self):
+        """show historic of substitute selections"""
+        print("#################### historique #####################")
+        sql_select_query = "SELECT * FROM historic"
+        self.cursor.execute(sql_select_query)
+        rows = self.cursor.fetchall()
+        for row in rows:
+            print("------------------------------")
+            print("recherche n°{}".format(row[0]))
+            print("date : {}".format(row[1]))
+            print("produit : {}".format(row[2]))
+            print("substitut : {}".format(row[3]))
+            print("")

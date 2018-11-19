@@ -16,7 +16,7 @@ def main():
         if user_answer == "R":
             selector.selection()
         elif user_answer == "H":
-            pass
+            selector.show_historic()
         elif user_answer == "Q":
             selector.cnx.close()
             break
