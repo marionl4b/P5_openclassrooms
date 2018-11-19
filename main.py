@@ -3,11 +3,11 @@
 # coding: utf-8
 
 
-import db_manager
+import run_selector
 
 
 def main():
-    db_manager.DataInit()
+    run_selector.SelectSubstitute()
 
 
 if __name__ == '__main__':
