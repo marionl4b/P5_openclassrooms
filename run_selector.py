@@ -75,6 +75,7 @@ class SelectSubstitute:
 
     def show_product(self, prod_selected):
         """show attributes product and store_product from product selected by Mysql SELECT OUTER JOIN command)"""
+        stores = self.select_store(prod_selected)
         sql_select_query = "SELECT * FROM product WHERE product_name = %(product)s"
         self.cursor.execute(sql_select_query, prod_selected)
         rows = self.cursor.fetchall()
@@ -85,6 +86,7 @@ class SelectSubstitute:
             print("marque : {}".format(row[2]))
             print("url : {}".format(row[3]))
             print("nutriscore : {}".format(row[4]))
+            print("points de vente : {}".format(stores))
             print("")
 
     def show_substitute(self, cat_selected):
@@ -99,11 +101,27 @@ class SelectSubstitute:
             i += 1
             if i < 1:
                 substitute = row[0]
+                sub_store = {"product": row[0]}
+                stores = self.select_store(sub_store)
                 print("#################### substitut #####################")
                 print("nom : {}".format(row[1]))
                 print("description : {}".format(row[2]))
                 print("marque : {}".format(row[3]))
                 print("url : {}".format(row[4]))
                 print("nutriscore : {}".format(row[5]))
+                print("points de vente : {}".format(stores))
                 print("")
                 return substitute
+
+    def select_store(self, prod_selected):
+        sql_select_query = "SELECT sp_store FROM store_product WHERE sp_product = %(product)s"
+        self.cursor.execute(sql_select_query, prod_selected)
+        rows = self.cursor.fetchall()
+        stores = []
+        for row in rows:
+            if row[0] != "":
+                stores.append(row[0])
+            else:
+                stores.append("nc")
+        stores = ", ".join(stores)
+        return stores
