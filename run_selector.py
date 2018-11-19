@@ -37,8 +37,6 @@ class SelectSubstitute:
         self.cursor = db_manager.cursor
         self.cnx.database = db_manager.cnx.database
 
-        self.selection()
-
     def selection(self):
         """run methodes from class for substitute selection"""
         cat_selected = self.select_category()
