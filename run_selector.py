@@ -6,7 +6,6 @@ request = OFF_request.RequestParser()
 db_manager = db_manager.DataInit()
 
 
-
 def check_user_answer(prompt, temp_crawl):
     """check if user answer is integer beteween 0 and max index of temp_crawl"""
     while 1:
@@ -17,7 +16,11 @@ def check_user_answer(prompt, temp_crawl):
         except ValueError:
             print("Veuillez Entrer un chiffre ")
         except AssertionError:
-            print("Veuillez Entrer un chiffre entre 0 et {} compris".format(len(temp_crawl) - 1))
+            if len(temp_crawl) == 1:
+                result = 1
+                return result
+            else:
+                print("Veuillez Entrer un chiffre entre 0 et {} compris".format(len(temp_crawl) - 1))
         else:
             return result
 
