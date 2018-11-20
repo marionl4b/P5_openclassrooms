@@ -2,6 +2,13 @@ import os.path
 
 TABLES = dict()
 
+TABLES['category'] = (
+    "CREATE TABLE category ("
+    "category_name VARCHAR(100) NOT NULL,"
+    "PRIMARY KEY (category_name)"
+    ") ENGINE=InnoDB"
+)
+
 TABLES['product'] = (
     "CREATE TABLE `product` ("
     "  `product_name` varchar(100) NOT NULL,"
