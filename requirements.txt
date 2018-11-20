@@ -1,0 +1,13 @@
+certifi==2018.10.15
+chardet==3.0.4
+get==1.0.3
+idna==2.7
+mysql-connector-python==8.0.13
+post==1.0.2
+protobuf==3.6.1
+public==2.0.1
+query-string==1.0.2
+request==1.0.2
+requests==2.20.1
+six==1.11.0
+urllib3==1.24.1
