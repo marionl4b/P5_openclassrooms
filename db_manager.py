@@ -1,3 +1,6 @@
+# !/usr/bin/env python3
+# coding: utf-8
+
 import mysql.connector
 from mysql.connector import errorcode
 import settings
@@ -23,6 +26,7 @@ def database_connexion():
 
 
 class DataInit:
+    """Init database connexion, tables and inserted data"""
     def __init__(self):
         self.categories, self.products = request.load_data()
         self.cnx = database_connexion()
@@ -63,7 +67,7 @@ class DataInit:
         for table_name in settings.TABLES:
             table_description = settings.TABLES[table_name]
             try:
-                print("Creating table : {} ".format(table_name), end='')
+                print("Creating table : {}".format(table_name), end='\n')
                 self.cursor.execute(table_description)
             except mysql.connector.Error as err:
                 if err.errno == errorcode.ER_TABLE_EXISTS_ERROR:
@@ -122,7 +126,7 @@ class DataInit:
                 pass
 
     def check_data(self, table, query, data_dict):
-        """insert data from temp dictionnary into table if don't already exists"""
+        """insert data from temp dictionary into table if don't already exists"""
         try:
             self.cursor.execute("SELECT EXISTS(SELECT * FROM {})".format(table))
         except mysql.connector.Error as err:

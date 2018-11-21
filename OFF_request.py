@@ -8,6 +8,7 @@ import settings
 
 
 class RequestParser:
+    """send request to Open Food Fact API, crawl API response and store data in json file"""
 
     def __init__(self):
         self.search_response = {}

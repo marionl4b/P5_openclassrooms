@@ -1,3 +1,6 @@
+# !/usr/bin/env python3
+# coding: utf-8
+
 import OFF_request
 import db_manager
 import datetime
@@ -36,6 +39,8 @@ def index_constructor(index, temp_crawl):
 
 
 class SelectSubstitute:
+    """run user selection by categories and products, show products and substitutes details
+     and manage historic for user searches"""
     def __init__(self):
         self.categories, self.products = request.load_data()
         self.cnx = db_manager.cnx
@@ -118,6 +123,7 @@ class SelectSubstitute:
                 return substitute
 
     def select_store(self, prod_selected):
+        """select stores for each products in store_product table"""
         sql_select_query = "SELECT sp_store FROM store_product WHERE sp_product = %(product)s"
         self.cursor.execute(sql_select_query, prod_selected)
         rows = self.cursor.fetchall()
@@ -131,6 +137,7 @@ class SelectSubstitute:
         return stores
 
     def add_to_historic(self, prod_selected, substitute):
+        """ask user to save his last search"""
         while 1:
             user_answer = input("Ajouter à l'historique ? (O/N)")
             if user_answer == "O":
@@ -169,6 +176,7 @@ class SelectSubstitute:
         self.show_historic_details(temp_crawl)
 
     def show_historic_details(self, temp_crawl):
+        """select the id of a search to show its detailed products and substitutes"""
         product = dict()
         substitute = dict()
         hist_select = check_user_answer("Veuillez séléctionner la recherche dont "

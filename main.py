@@ -1,6 +1,6 @@
 # Pur Beurre a Terminal AP using OpenFoodFacts Data
 # !/usr/bin/env python3
-# coding: utf-8
+# # coding: utf-8
 
 
 import run_selector
@@ -9,7 +9,7 @@ import run_selector
 def main():
     selector = run_selector.SelectSubstitute()
     while 1:
-        user_answer = input("PurBeurre vous permet de trouver une alternative plus saine à un produit alimentaire \n"
+        user_answer = input("\nPurBeurre vous permet de trouver une alternative plus saine à un produit alimentaire \n"
                             "Rechercher un produit (R)\n"
                             "Consulter l'historique de vos recherches (H)\n"
                             "Quitter (Q)")

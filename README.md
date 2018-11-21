@@ -22,7 +22,7 @@ The data of the openFoodFacts are analyzed and saved in a MYSQL database, thanks
    * You could choose to see detailed description of the product and the substitute with search index
 
 
-##Contributing to OpenFoodFacts
+## Contributing to OpenFoodFacts
 Open Food Facts is a non-profit project made entirely by volunteers  
 https://world.openfoodfacts.org
 
