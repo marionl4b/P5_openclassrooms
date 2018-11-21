@@ -41,6 +41,7 @@ def index_constructor(index, temp_crawl):
 class SelectSubstitute:
     """run user selection by categories and products, show products and substitutes details
      and manage historic for user searches"""
+
     def __init__(self):
         self.categories, self.products = request.load_data()
         self.cnx = db_manager.cnx
@@ -49,21 +50,31 @@ class SelectSubstitute:
 
     def selection(self):
         """run methodes from class for substitute selection"""
+        print("\n ############## Catégories ##############\n")
         cat_selected = self.select_category()
+        print("\n ###### Produits de la catégorie {} #######\n".format(cat_selected["category"]))
         prod_selected = self.select_product(cat_selected)
+        print("\n ########## produit sélectionné ##########")
         self.show_product(prod_selected)
+        print("\n ################ substitut ##############")
         substitute = self.show_substitute(cat_selected)
         self.add_to_historic(prod_selected, substitute)
 
     def select_category(self):
         """show catgories and return index and name of the chosen one"""
         temp_crawl = []
-        for item in enumerate(self.categories):
-            index = item[0]
-            category = item[1].get("name")
-            print(index, category)
+        sql_select_query = "SELECT * FROM category"
+        self.cursor.execute(sql_select_query,)
+        rows = self.cursor.fetchall()
+        for row in enumerate(rows):
+            index = row[0]
+            category = row[1][0]
+            if index < 10:
+                print(" {}  {}".format(index, category))
+            else:
+                print("{}  {}".format(index, category))
             temp_crawl.append({"index": index, "category": category})
-        cat_index = check_user_answer("Veuillez séléctionner une catégorie (chiffre)", temp_crawl)
+        cat_index = check_user_answer("\nVeuillez séléctionner une catégorie (chiffre)", temp_crawl)
         cat_selected = index_constructor(cat_index, temp_crawl)
         return cat_selected
 
@@ -76,9 +87,12 @@ class SelectSubstitute:
         for row in enumerate(rows):
             index = row[0]
             product = row[1][0]
-            print(index, product)
+            if index < 10:
+                print(" {}  {}".format(index, product))
+            else:
+                print("{}  {}".format(index, product))
             temp_crawl.append({"index": index, "product": product})
-        prod_index = check_user_answer("Veuillez séléctionner un produit (chiffre)", temp_crawl)
+        prod_index = check_user_answer("\nVeuillez séléctionner un produit (chiffre)", temp_crawl)
         prod_selected = index_constructor(prod_index, temp_crawl)
         return prod_selected
 
@@ -89,7 +103,6 @@ class SelectSubstitute:
         self.cursor.execute(sql_select_query, prod_selected)
         rows = self.cursor.fetchall()
         for row in rows:
-            print("#################### produit sélectionné #####################")
             print("nom : {}".format(row[0]))
             print("description : {}".format(row[1]))
             print("marque : {}".format(row[2]))
@@ -112,7 +125,6 @@ class SelectSubstitute:
                 substitute = row[0]
                 sub_store = {"product": row[0]}
                 stores = self.select_store(sub_store)
-                print("#################### substitut #####################")
                 print("nom : {}".format(row[1]))
                 print("description : {}".format(row[2]))
                 print("marque : {}".format(row[3]))
@@ -160,7 +172,7 @@ class SelectSubstitute:
 
     def show_historic(self):
         """show historic of substitute selections"""
-        print("#################### historique #####################")
+        print("\n #################### historique #####################")
         temp_crawl = []
         sql_select_query = "SELECT * FROM historic"
         self.cursor.execute(sql_select_query)
@@ -179,9 +191,9 @@ class SelectSubstitute:
         """select the id of a search to show its detailed products and substitutes"""
         product = dict()
         substitute = dict()
-        hist_select = check_user_answer("Veuillez séléctionner la recherche dont "
-                                        "vous voulez afficher les détails (chiffre)", temp_crawl)
-        hist_number = {"index": hist_select}
+        hist_selected = check_user_answer("Veuillez séléctionner la recherche dont "
+                                          "vous voulez afficher les détails (chiffre)", temp_crawl)
+        hist_number = {"index": hist_selected}
         sql_select_query = "SELECT hist_product, hist_substitute FROM historic " \
                            "WHERE historic.hist_id = %(index)s"
         self.cursor.execute(sql_select_query, hist_number)
@@ -189,5 +201,8 @@ class SelectSubstitute:
         for row in rows:
             product = {"product": row[0]}
             substitute = {"product": row[1]}
+        print("\n ###### Produits de la recherche n°{} #######\n".format(hist_selected))
+        print(" ########## produit sélectionné ##########")
         self.show_product(product)
+        print(" ################ substitut ##############")
         self.show_product(substitute)
