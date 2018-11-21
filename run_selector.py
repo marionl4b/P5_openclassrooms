@@ -10,22 +10,23 @@ db_manager = db_manager.DataInit()
 
 
 def check_user_answer(prompt, temp_crawl):
-    """check if user answer is integer beteween 0 and max index of temp_crawl"""
+    """check if user answer is integer between 0 and max index of temp_crawl"""
     while 1:
         result = input(prompt)
         try:
             result = int(result)
-            assert len(temp_crawl) > result >= 0
         except ValueError:
             print("Veuillez Entrer un chiffre ")
-        except AssertionError:
-            if len(temp_crawl) == 1:
-                result = 1
-                return result
-            else:
-                print("Veuillez Entrer un chiffre entre 0 et {} compris".format(len(temp_crawl) - 1))
         else:
-            return result
+            if 0 != temp_crawl[0].get("index"):
+                if result == 0 or result > len(temp_crawl):
+                    print("Veuillez Entrer un chiffre entre 1 et {} compris".format(len(temp_crawl)))
+                else:
+                    return result
+            elif result >= len(temp_crawl):
+                print("Veuillez Entrer un chiffre entre 0 et {} compris".format(len(temp_crawl) - 1))
+            else:
+                return result
 
 
 def index_constructor(index, temp_crawl):
