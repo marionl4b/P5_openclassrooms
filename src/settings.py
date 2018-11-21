@@ -35,9 +35,9 @@ TABLES['historic'] = (
     "  KEY (`hist_product`),"
     "  KEY (`hist_substitute`),"
     "  CONSTRAINT `fk_hist_product` FOREIGN KEY (`hist_product`) "
-    "     REFERENCES `product` (`product_name`),"
+    "     REFERENCES `product` (`product_name`) ON DELETE CASCADE,"
     "  CONSTRAINT `fk_hist_substitute` FOREIGN KEY (`hist_substitute`) "
-    "     REFERENCES `product` (`product_name`)"
+    "     REFERENCES `product` (`product_name`) ON DELETE CASCADE "
     ") ENGINE=InnoDB")
 
 TABLES['category_product'] = (
@@ -46,9 +46,9 @@ TABLES['category_product'] = (
     "  `cp_product` varchar(100) NOT NULL,"
     "  PRIMARY KEY (`cp_category`, `cp_product`),"
     "  CONSTRAINT `fk_cp_category` FOREIGN KEY (`cp_category`) "
-    "     REFERENCES `category` (`category_name`),"
+    "     REFERENCES `category` (`category_name`) ON DELETE CASCADE,"
     "  CONSTRAINT `fk_cp_product` FOREIGN KEY (`cp_product`) "
-    "     REFERENCES `product` (`product_name`)"
+    "     REFERENCES `product` (`product_name`) ON DELETE CASCADE"
     ") ENGINE=InnoDB")
 
 TABLES['store_product'] = (
@@ -57,9 +57,9 @@ TABLES['store_product'] = (
     '  `sp_product` varchar(100) NOT NULL,'
     '  PRIMARY KEY (`sp_store`, `sp_product`),'
     '  CONSTRAINT `fk_sp_store` FOREIGN KEY (`sp_store`) '
-    '     REFERENCES `store` (`store_name`),'
+    '     REFERENCES `store` (`store_name`) ON DELETE CASCADE,'
     '  CONSTRAINT `fk_sp_product` FOREIGN KEY (`sp_product`) '
-    '     REFERENCES `product` (`product_name`)'
+    '     REFERENCES `product` (`product_name`) ON DELETE CASCADE'
     ') ENGINE=InnoDB')
 
 
