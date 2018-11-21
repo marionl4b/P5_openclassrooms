@@ -3,9 +3,7 @@
 
 import mysql.connector
 from mysql.connector import errorcode
-import settings
-import config
-import OFF_request
+from src import OFF_request, config, settings
 
 request = OFF_request.RequestParser()
 

@@ -4,7 +4,7 @@
 import os.path
 import requests
 import json
-import settings
+from src import settings
 
 
 class RequestParser:

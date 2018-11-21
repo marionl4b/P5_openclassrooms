@@ -8,7 +8,7 @@ The data of the openFoodFacts are analyzed and saved in a MYSQL database, thanks
 ## Install
 1. Clone the repository
 2. Install dependencies with `pip install -r requirements.txt`  
-3. Edit the `user_config.py` file with your Mysql connexion info
+3. Edit the `src/user_config.py` file with your Mysql connexion info
 4. Rename the `user_config.py` file in `config.py`
 
 ## How to

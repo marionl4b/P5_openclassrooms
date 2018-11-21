@@ -3,3 +3,4 @@ venv/
 /idea/
 config.py
 __pycache__/
+src/OFF_data.json

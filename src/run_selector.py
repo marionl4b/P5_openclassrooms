@@ -1,8 +1,7 @@
 # !/usr/bin/env python3
 # coding: utf-8
 
-import OFF_request
-import db_manager
+from src import db_manager, OFF_request
 import datetime
 
 request = OFF_request.RequestParser()
@@ -152,11 +151,11 @@ class SelectSubstitute:
     def add_to_historic(self, prod_selected, substitute):
         """ask user to save his last search"""
         while 1:
-            user_answer = input("Ajouter à l'historique ? (O/N)")
-            if user_answer == "O":
+            user_answer = str.lower(input("Ajouter à l'historique ? (O/N)"))
+            if user_answer == "o":
                 self.insert_historic(prod_selected, substitute)
                 break
-            elif user_answer == "N":
+            elif user_answer == "n":
                 break
             else:
                 print("Veuillez entree (O/N)")
